@@ -2,6 +2,7 @@ import os
 import sys
 operationsChars = str("+-<>[]")
 operationsList = {
+    
     '+' : [" finsh addition!"],
     '-' : [" finish subtraction!"],
     '<' :[" finish pointer shift left!"],
@@ -20,14 +21,26 @@ except OSError:
 
 try:
     global inFile
-    inFile = open(sys.argv[1])
+    if sys.argv == "--help":
+        print("compiler [filepath][optional = result]")
+    inFile = open(sys.argv[1], 'r')
 except FileNotFoundError :
     print("No Such file found!")
     exit(-1)
 except IndexError:
     print("No File path given!")
     exit(-1)
-outFile = open("test.txt", 'a')
+if len(sys.argv) ==3:
+    try:
+        global outFile
+        os.remove(sys.argv[2])
+        outFile = open(sys.argv[2], 'a')
+    except FileNotFoundError :
+        print("No Such file found!")
+        exit(-1)
+    except IndexError:
+        print("No File path given!")
+        exit(-1)
 
 #File Reading 
 outFile.write("""
@@ -43,10 +56,10 @@ ExitProcess  proto
 """)
 
 
-
+PointerOffset:int = 0
 for line in inFile.readlines():
     for operationsChars in line :
-        print(operationsList[operationsChars])#invoke function here 
+        print(operationsList[operationsChars])
         pass
 else:#when EOF write this 
     outFile.write("""
