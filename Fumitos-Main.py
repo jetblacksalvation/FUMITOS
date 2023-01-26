@@ -3,8 +3,8 @@ import sys
 from FumitosOperations.FumitosArithmetic import *
 from FumitosOperations.FumitosControlFlow import *
 from FumitosOperations.FumitosShift import *
-operationsChars = str("+-<>[]")
-operationsList = {
+operationsChars = "+-<>[]"
+operationsDict = {
     
     '+' : IncrementIt,
     '-' : DeInrecrementIt,
@@ -63,7 +63,7 @@ for line in inFile.readlines():
     for chars in line :
         if chars in operationsChars:
             
-            operationsList[chars](outFile)
+            operationsDict[chars](outFile)
         pass
 else:#when EOF write this 
     outFile.write("""
