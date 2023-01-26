@@ -1,12 +1,12 @@
 import typing
 def RightShiftIt(File:typing.TextIO,pointer : int or str ="RDX"):
     File.write(
-"""    inc {}
-""".format(pointer)
+f"""    inc {pointer}
+"""
     )
 def LeftShiftIt(File:typing.TextIO,pointer : int or str="RDX"):
     File.write(
-"""    dec {}
-""".format(pointer)
+f"""    dec {pointer}
+"""
     )
     pass
