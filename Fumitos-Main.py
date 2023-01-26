@@ -24,7 +24,7 @@ except OSError:
 
 try:
     global inFile
-    if sys.argv == "--help":
+    if sys.argv[1] == "--help":
         print("compiler [filepath][optional = result]")
     inFile = open(sys.argv[1], 'r')
 except FileNotFoundError :
