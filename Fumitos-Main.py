@@ -1,14 +1,17 @@
 import os 
 import sys
+from FumitosOperations.FumitosArithmetic import *
+from FumitosOperations.FumitosControlFlow import *
+from FumitosOperations.FumitosShift import *
 operationsChars = str("+-<>[]")
 operationsList = {
     
-    '+' : [" finsh addition!"],
-    '-' : [" finish subtraction!"],
-    '<' :[" finish pointer shift left!"],
-    '>' : [" finish pointer shift right!"],
-    '[' : [" finish loop_starter!"],
-    ']' : [" finish loop_ender!"]
+    '+' : IncrementIt,
+    '-' : DeInrecrementIt,
+    '<' :LeftShiftIt,
+    '>' : RightShiftIt,
+    '[' : CreateNewLoopLabel,
+    ']' : EndLoopLabel
 }
 
 
@@ -49,17 +52,16 @@ includelib kernel32.lib
 includelib msvcrt.lib
 ExitProcess  proto
 .data
-    
+    CellPointer qword 1000 dup(0)
 .code 
     main proc
-        
+    mov rdx, offset CellPointer
 """)
 
 
-PointerOffset:int = 0
 for line in inFile.readlines():
     for operationsChars in line :
-        print(operationsList[operationsChars])
+        operationsList[operationsChars](outFile)
         pass
 else:#when EOF write this 
     outFile.write("""
