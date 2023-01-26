@@ -60,8 +60,10 @@ ExitProcess  proto
 
 
 for line in inFile.readlines():
-    for operationsChars in line :
-        operationsList[operationsChars](outFile)
+    for chars in line :
+        if chars in operationsChars:
+            
+            operationsList[chars](outFile)
         pass
 else:#when EOF write this 
     outFile.write("""

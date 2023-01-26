@@ -10,9 +10,9 @@ def CreateNewLoopLabel(File:typing.TextIO, pointer:int or str = "RDX"):
     File.write(
 F"""    
     start_lblnum{LabelCount}: ; starting ----
-    cmp qword ptr[{pointer}]
-    jz end_lbl{LabelCount}
-    ; middlle -----
+    cmp qword ptr[{pointer}],0
+    jz end_lblnum{LabelCount}
+    ; scope start ----- {LabelCount}
 """
     )
     pass
@@ -20,10 +20,11 @@ def EndLoopLabel(File:typing.TextIO, pointer:int or str = "RDX"):
     global LabelCount
     templabel = LabelStack.pop()
     File.write(
-F"""    
+F"""
+    ;scope end ---- {templabel}
     cmp qword ptr[{pointer}], 0
     jnz start_lblnum{LabelCount}
-    end_lbl{templabel}:; ending -----
+    end_lblnum{templabel}:; ending -----
 """
     )
     pass
