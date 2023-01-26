@@ -1,23 +1,29 @@
 import typing
-
-global Labelcount; Labelcount :int= 0
-
-def CreateNewLoopLabel(File:typing.TextIO, pointer:int or str = "RDX", labelcount = Labelcount):
-    labelcount += 1
-    
+LabelCount =0
+LabelStack = []
+#Python's Devs, in their infanite and unbound wisdom, have decideded that 
+#to use a global integer, i must use the global keyword!
+def CreateNewLoopLabel(File:typing.TextIO, pointer:int or str = "RDX"):
+    global LabelCount
+    LabelCount+= 1
+    LabelStack.append(F"{LabelCount}")
     File.write(
-"""    label_num{}:
-""".format(Labelcount)
+F"""    
+    start_lblnum{LabelCount}: ; starting ----
+    cmp qword ptr[{pointer}]
+    jz end_lbl{LabelCount}
+    ; middlle -----
+"""
     )
     pass
-def EndLoopLabel(File:typing.TextIO, pointer:int or str = "RDX",labelcount = Labelcount):
-    labelcount +=1
+def EndLoopLabel(File:typing.TextIO, pointer:int or str = "RDX"):
+    global LabelCount
+    templabel = LabelStack.pop()
     File.write(
-"""    
-    cmp qword ptr[{}], 0
-    jz label_num{}
-    jmp  label_num{}
-    label_num{}:
-""".format(pointer,labelcount, labelcount-1,labelcount)
+F"""    
+    cmp qword ptr[{pointer}], 0
+    jnz start_lblnum{LabelCount}
+    end_lbl{templabel}:; ending -----
+"""
     )
     pass
