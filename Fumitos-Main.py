@@ -3,12 +3,12 @@ import sys
 from FumitosOperations.FumitosArithmetic import *
 from FumitosOperations.FumitosControlFlow import *
 from FumitosOperations.FumitosShift import *
-operationsChars = "+-<>[]"
+operationTokens = ["+", "-", "<", ">", "[", "]"]
 operationsDict = {
     
     '+' : IncrementIt,
     '-' : DeInrecrementIt,
-    '<' :LeftShiftIt,
+    '<' : LeftShiftIt,
     '>' : RightShiftIt,
     '[' : CreateNewLoopLabel,
     ']' : EndLoopLabel
@@ -60,11 +60,12 @@ ExitProcess  proto
 
 
 for line in inFile.readlines():
-    for chars in line :
-        if chars in operationsChars:
+    [operationsDict[char](outFile) for x in range(len(line)) for char in operationTokens if line[x: x+len(char)] == char]
+    # for chars in line :
+    #     if chars in operationTokens:
             
-            operationsDict[chars](outFile)
-        pass
+    #         operationsDict[chars](outFile)
+    #     pass
 else:#when EOF write this 
     outFile.write("""
     mov rdx, 1 ; rdx is first arguement within the windows x64 calling convention

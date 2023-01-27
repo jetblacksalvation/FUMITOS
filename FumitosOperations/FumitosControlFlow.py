@@ -18,9 +18,14 @@ F"""
     pass
 def EndLoopLabel(File:typing.TextIO, pointer:int or str = "RDX"):
     global LabelCount
-    templabel = LabelStack.pop()
+    templabel = 0
+    try :
+        templabel= LabelStack.pop()
+    except IndexError:
+        print("You have an extra ] or it's mis-matched")
+        exit(-1)
     File.write(
-F"""
+f"""
     ;scope end ---- {templabel}
     cmp qword ptr[{pointer}], 0
     jnz start_lblnum{LabelCount}
