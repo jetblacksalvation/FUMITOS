@@ -3,7 +3,7 @@ import sys
 from FumitosOperations.FumitosArithmetic import *
 from FumitosOperations.FumitosControlFlow import *
 from FumitosOperations.FumitosShift import *
-operationTokens = ["+", "-", "<", ">", "[", "]"]
+operationTokens = ["+", "-", "<", ">", "[", "]", "."]
 operationsDict = {
     
     '+' : IncrementIt,
@@ -11,7 +11,9 @@ operationsDict = {
     '<' : LeftShiftIt,
     '>' : RightShiftIt,
     '[' : CreateNewLoopLabel,
-    ']' : EndLoopLabel
+    ']' : EndLoopLabel,
+    '.' : Print_
+
 }
 
 
@@ -50,11 +52,30 @@ outFile.write("""
 ; Remember This Tagets x64! 
 includelib kernel32.lib
 includelib msvcrt.lib
-ExitProcess  proto
+GetStdHandle proto
+WriteFile proto	
+ReadFile proto	
+ExitProcess  proto	
 .data
+	
+    hStdIn dq	?; stdin 
+    hStdOut dq	?;stdout
     CellPointer qword 1000 dup(0)
 .code 
     main proc
+    	sub rsp, 28h        ; space for 4 arguments + 16byte aligned stack
+	;-------getting handles ---
+	;----stdin
+	mov rcx, -11
+	call GetStdHandle
+	mov hStdOut, rax; DWORD hStdOut = GetStdHandle(-11);
+	;-----stdout
+	mov rcx, -10
+	call GetStdHandle
+	mov hStdIn, rax;DWORD hStdIn = GetStdHandle(-10);
+
+	add rsp, 28h
+	;-------end getting handles 
     mov rdx, offset CellPointer
 """)
 
