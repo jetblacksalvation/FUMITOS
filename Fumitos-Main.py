@@ -21,6 +21,7 @@ operationsDict = {
 try:
     os.remove("test.txt")
 except OSError:
+    exit(-1)
     pass
 
 
@@ -47,7 +48,7 @@ if len(sys.argv) ==3:
         print("No File path given!")
         exit(-1)
 
-#File Reading 
+#File Reading --- Eventually figure out the preprocessing 
 outFile.write("""
 ; Remember This Tagets x64! 
 includelib kernel32.lib
