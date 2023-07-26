@@ -37,12 +37,13 @@ class ParseIntoAssembly:
         if 'asm' not in outputPath:
             outputPath+ '.asm'
         outFile = open(outputPath, 'w')
-        outFile.write(jSettings['init'].replace('\\n','\n'))
+        outFile.write(jSettings['initMain'])
 
         for line in File.readlines():
             [self.operationsDict[char](outFile) for x in range(len(line)) for char in self.operationsDict if line[x: x+len(char)] == char]
 
         print('finished writing')
-        pass
+        outFile.write(jSettings['endMain'])
+
 
 
