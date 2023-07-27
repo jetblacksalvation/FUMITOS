@@ -1,13 +1,13 @@
 import typing
-def RightShiftIt(File:typing.TextIO,pointer : int or str ="RDX"):
+def RightShiftIt(File:typing.TextIO,shiftBy:int,pointer : int or str ="RDX"):
     #make sure you increment via byte offsets 
     File.write(
-f"""    add {pointer}, 8
+f"""    add {pointer}, {shiftBy*8}
 """
     )
-def LeftShiftIt(File:typing.TextIO,pointer : int or str="RDX"):
+def LeftShiftIt(File:typing.TextIO,shiftBy:int,pointer : int or str ="RDX"):
     File.write(
-f"""    sub {pointer}, 8
+f"""    sub {pointer}, {shiftBy*8}
 """
     )
     pass

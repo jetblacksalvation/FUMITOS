@@ -5,15 +5,17 @@ import sys
 import typing
 PointerOffset:int = 0
 
-def IncrementIt(File:typing.TextIO  ,pointer:int or str = "RDX" ):
+def IncrementIt(File:typing.TextIO,incrementBy:int  ,pointer:int or str = "RDX" ):
     File.write(
-F"""    inc qword ptr[{pointer}+ {PointerOffset}]
+F"""    
+    add qword ptr[{pointer}], {incrementBy}; called by IncrementIt
 """
     )
     pass
-def DeInrecrementIt(File:typing.TextIO, pointer:int or str = "RDX"):
+def DeInrecrementIt(File:typing.TextIO,incrementBy:int, pointer:int or str = "RDX"):
     File.write(
-F"""    dec qword ptr[{pointer}+ {PointerOffset}]
+F"""    
+    sub qword ptr[{pointer}], {incrementBy};called by DeIncrementIt
 """
     )
 
